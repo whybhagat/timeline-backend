@@ -3,7 +3,10 @@ import { generateTokenAndSetCookies } from "../middlewares/GenerateToken.js";
 import { Usermodel } from "../models/User.js";
 
 
+
+/* ============================= */
 /* SEND OTP */
+/* ============================= */
 
 const Register = async (req, res) => {
 
@@ -18,19 +21,19 @@ const Register = async (req, res) => {
       });
     }
 
-    const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     const user = await Usermodel.findOneAndUpdate(
       { email },
       {
         email,
-        verificationToken,
+        verificationToken: otp,
         verificationTokenExpiresAt: Date.now() + 10 * 60 * 1000
       },
       { upsert: true, new: true }
     );
 
-    await sendverificationEmail(user.email, verificationToken);
+    await sendverificationEmail(user.email, otp);
 
     return res.status(200).json({
       success: true,
@@ -39,7 +42,7 @@ const Register = async (req, res) => {
 
   } catch (error) {
 
-    console.log(error);
+    console.log("REGISTER ERROR:", error);
 
     return res.status(500).json({
       success: false,
@@ -52,7 +55,9 @@ const Register = async (req, res) => {
 
 
 
+/* ============================= */
 /* VERIFY OTP */
+/* ============================= */
 
 const VerifyEmail = async (req, res) => {
 
@@ -100,7 +105,7 @@ const VerifyEmail = async (req, res) => {
 
   } catch (error) {
 
-    console.log(error);
+    console.log("VERIFY ERROR:", error);
 
     return res.status(500).json({
       success: false,
@@ -110,6 +115,7 @@ const VerifyEmail = async (req, res) => {
   }
 
 };
+
 
 
 export { Register, VerifyEmail };
