@@ -16,6 +16,11 @@ DbCon();
 // routes
 app.use("/auth", authRoutes);
 
+// root route (browser test ke liye)
+app.get("/", (req, res) => {
+  res.send("Timeline Backend API is running 🚀");
+});
+
 // port
 const PORT = process.env.PORT || 5000;
 
