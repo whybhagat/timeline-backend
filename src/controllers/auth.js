@@ -1,5 +1,5 @@
-import { sendverificationEmail, sendWelcomeEmail } from "../middlewares/email.js";
-import { generateTokenAndSetCookies } from "../middlewares/generateToken.js";
+import { sendverificationEmail, sendWelcomeEmail } from "../middlewares/Email.js";
+import { generateTokenAndSetCookies } from "../middlewares/GenerateToken.js";
 import { Usermodel } from "../models/User.js";
 
 
