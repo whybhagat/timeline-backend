@@ -1,8 +1,13 @@
-import express from 'express'
-import { Reigster, VerfiyEmail } from "../controllers/auth.js"
+import express from "express";
 
-const AuthRoutes=express.Router()
+const router = express.Router();
 
-AuthRoutes.post('/register',Reigster)
-AuthRoutes.post('/verifyEmail',VerfiyEmail)
-export default AuthRoutes
+router.post("/send-otp", (req, res) => {
+  res.json({ message: "OTP sent" });
+});
+
+router.post("/verify-otp", (req, res) => {
+  res.json({ message: "OTP verified" });
+});
+
+export default router;
