@@ -1,5 +1,5 @@
 import express from 'express'
-import { Reigster, VerfiyEmail } from '../controllers/Auth.js'
+import { Reigster, VerfiyEmail } from '../controllers/auth.js'
 
 const AuthRoutes=express.Router()
 
