@@ -1,35 +1,49 @@
-import { transporter } from "./Email.confiq.js";
-import { Verification_Email_Template, Welcome_Email_Template } from "./EmailTemplate.js";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
 
-export const sendVerificationEamil=async(email,verificationCode)=>{
-    try {
-     const response=   await transporter.sendMail({
-            from: '"Zahid" <zahidtime313@gmail.com>',
+/* SEND OTP EMAIL */
 
-            to: email, // list of receivers
-            subject: "Verify your Email", // Subject line
-            text: "Verify your Email", // plain text body
-            html: Verification_Email_Template.replace("{verificationCode}",verificationCode)
-        })
-        console.log('Email send Successfully',response)
-    } catch (error) {
-        console.log('Email error',error)
-    }
-}
-export const senWelcomeEmail=async(email,name)=>{
-    try {
-     const response=   await transporter.sendMail({
-            from: '"Zahid" <zahidtime313@gmail.com>',
+export const sendverificationEmail = async (email, otp) => {
 
-            to: email, // list of receivers
-            subject: "Welcome Email", // Subject line
-            text: "Welcome Email", // plain text body
-            html: Welcome_Email_Template.replace("{name}",name)
-        })
-        console.log('Email send Successfully',response)
-    } catch (error) {
-        console.log('Email error',error)
-    }
-}
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "OTP Verification",
+    html: `
+      <h2>Your OTP Code</h2>
+      <h1>${otp}</h1>
+      <p>This OTP will expire in 10 minutes.</p>
+    `
+  };
 
+  await transporter.sendMail(mailOptions);
+
+};
+
+
+
+/* WELCOME EMAIL */
+
+export const sendWelcomeEmail = async (email) => {
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Welcome to Timeline",
+    html: `
+      <h2>Welcome to Timeline 🎵</h2>
+      <p>Your account has been successfully verified.</p>
+    `
+  };
+
+  await transporter.sendMail(mailOptions);
+
+};
